@@ -35,11 +35,11 @@ spec:
           ports:
             - containerPort: 8081
               protocol: TCP
-          volumeMounts:
-            - mountPath: /logs
-              name: logs-volume
+#          volumeMounts:
+#            - mountPath: /logs
+#              name: logs-volume
       restartPolicy: Always
-      volumes:
-        - name: logs-volume
-          persistentVolumeClaim:
-            claimName: logs-volume
+#      volumes:
+#        - name: logs-volume
+#          persistentVolumeClaim:
+#            claimName: logs-volume

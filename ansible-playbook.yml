@@ -3,16 +3,6 @@
   hosts: localhost
   gather_facts: no
   tasks:
-    - name: Ensure kubectl is installed
-      ansible.builtin.command:
-        cmd: kubectl version --short
-      register: kubectl_version
-      failed_when: kubectl_version.rc != 0
-      changed_when: false
-
     - name: Apply Kubernetes manifests
       ansible.builtin.shell:
         cmd: kubectl apply -f ./k8s-manifests/
-      register: kubectl_apply_output
-      failed_when: kubectl_apply_output.rc != 0
-      changed_when: true

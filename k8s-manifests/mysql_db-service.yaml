@@ -6,7 +6,7 @@ metadata:
     kompose.version: 1.34.0 (cbf2835db)
   labels:
     io.kompose.service: mysql-db
-  name: mysql_db
+  name: mysql-db-service
 spec:
   ports:
     - name: "3306"

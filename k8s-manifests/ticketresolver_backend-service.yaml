@@ -6,7 +6,7 @@ metadata:
     kompose.version: 1.34.0 (cbf2835db)
   labels:
     io.kompose.service: ticketresolver-backend
-  name: ticketresolver_backend
+  name: ticketresolver-backend-service
 spec:
   ports:
     - name: "8081"
