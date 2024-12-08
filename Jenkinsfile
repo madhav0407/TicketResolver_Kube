@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Git clone') {
             steps {
-            git branch: 'master',url: 'https://github.com/madhav0407/TicketResolver_Frontend.git'
+            git branch: 'master',url: 'https://github.com/madhav0407/TicketResolver_Kube.git'
             }
         }
         stage('Docker Build Image') {

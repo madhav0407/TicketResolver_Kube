@@ -1,26 +1,18 @@
 ---
-- name: Deploy Docker Image to Container
+- name: Deploy Kubernetes Resources
   hosts: localhost
-  vars:
-    ansible_python_interpreter: /usr/bin/python3.8
+  gather_facts: no
   tasks:
-    # - name: Copy .env file to remote host
-    #   copy:
-    #     src: .env
-    #     dest: ./
+    - name: Ensure kubectl is installed
+      ansible.builtin.command:
+        cmd: kubectl version --short
+      register: kubectl_version
+      failed_when: kubectl_version.rc != 0
+      changed_when: false
 
-    - name: Copy compose file to remote host
-      copy:
-        src: ./docker-compose.yml
-        dest: ./
-
-    - name: Pull the Docker images specifed in docker-compose
-      shell: 
-        cmd: docker compose pull
-        chdir: ./
-
-    - name: run docker-compose file
-      command: docker compose up -d --build
-
-    # - name: Prune the dangling Docker images
-    #   command: docker image prune --force
+    - name: Apply Kubernetes manifests
+      ansible.builtin.shell:
+        cmd: kubectl apply -f ./k8s-manifests/
+      register: kubectl_apply_output
+      failed_when: kubectl_apply_output.rc != 0
+      changed_when: true
