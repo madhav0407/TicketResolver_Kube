@@ -1,5 +1,5 @@
 ---
-- name: Apply Kubernetes Manifests
+- name: Apply Kubernetes HPA
   command: kubectl apply -f {{ playbook_dir }}/roles/kubernetes/files/{{ item }}
   with_items:
     - backend-hpa.yaml
