@@ -1,0 +1,7 @@
+---
+- name: Apply Kubernetes Manifests
+  command: kubectl apply -f {{ playbook_dir }}/roles/kubernetes/files/{{ item }}
+  with_items:
+    - mysql-db-deployment.yaml
+    - ticketresolver-backend-deployment.yaml
+    - ticketresolver-frontend-deployment.yaml

@@ -40,7 +40,7 @@ pipeline {
                 credentialsId: 'localhost',
                 disableHostKeyChecking: true,
                 inventory: 'inventory',
-                playbook: 'ansible-playbook.yml'
+                playbook: 'deploy.yml'
                 // vaultCredentialsId: 'vault-pass'
             }
         }

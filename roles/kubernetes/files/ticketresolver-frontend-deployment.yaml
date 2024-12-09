@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticketresolver-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ticketresolver-frontend
+  template:
+    metadata:
+      labels:
+        app: ticketresolver-frontend
+    spec:
+      containers:
+        - name: ticketresolver-frontend
+          image: madhavsood04/ticketresolver_frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+          - name: REACT_APP_BACKEND_URL
+            value: http://spring-boot-service:8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticketresolver-service
+spec:
+  selector:
+    app: ticketresolver-frontend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30007
+  type: NodePort
