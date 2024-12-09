@@ -28,8 +28,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: Abcd@1234
     ports:
       - "8081:8081"
-    volumes:
-      - logs-volume:/logs  # Mount the logs directory for sharing with Logstash
     depends_on:
       - mysql_db
 
@@ -44,49 +42,10 @@ services:
     depends_on:
       - ticketresolver_backend
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
-    container_name: elasticsearch
-    environment:
-      discovery.type: single-node
-      xpack.security.enabled: "false"  # Disable security for simplicity
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    networks:
-      - spe-network
-
-  logstash:
-    image: docker.elastic.co/logstash/logstash:8.10.2
-    container_name: logstash
-    networks:
-      - spe-network
-    ports:
-      - "5044:5044"
-    volumes:
-      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - logs-volume:/logs  # Mount logs directory from backend
-    depends_on:
-      - elasticsearch
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.10.2
-    container_name: kibana
-    networks:
-      - spe-network
-    ports:
-      - "5601:5601"
-    environment:
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-    depends_on:
-      - elasticsearch
-
 networks:
   spe-network:
     driver: bridge
 
 volumes:
   mysql-data:
-    driver: local
-  logs-volume:
     driver: local

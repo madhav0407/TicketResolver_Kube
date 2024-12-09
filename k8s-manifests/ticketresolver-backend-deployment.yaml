@@ -1,45 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose --file docker-compose.yml convert
-    kompose.version: 1.34.0 (cbf2835db)
-  labels:
-    io.kompose.service: ticketresolver-backend
-  name: ticketresolver-backend
+  name: spring-boot-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: ticketresolver-backend
-  strategy:
-    type: Recreate
+      app: spring-boot-app
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose --file docker-compose.yml convert
-        kompose.version: 1.34.0 (cbf2835db)
       labels:
-        io.kompose.service: ticketresolver-backend
+        app: spring-boot-app
     spec:
       containers:
-        - env:
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: Abcd@1234
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql_db:3306/ticketresolver?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-            - name: SPRING_DATASOURCE_USERNAME
-              value: spe-project
+        - name: spring-boot-app
           image: madhavsood04/ticketresolver-backend:latest
-          name: ticketresolver-backend
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
-              protocol: TCP
-#          volumeMounts:
-#            - mountPath: /logs
-#              name: logs-volume
-      restartPolicy: Always
-#      volumes:
-#        - name: logs-volume
-#          persistentVolumeClaim:
-#            claimName: logs-volume
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://db-service:3306/ticketresolver?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "spe-project"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "Abcd@1234"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-boot-service
+spec:
+  selector:
+    app: spring-boot-app
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      nodePort: 30008
+  type: NodePort
