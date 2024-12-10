@@ -12,7 +12,7 @@ import Contact from './Contact'
 import { useEffect } from 'react';
 
 function App() {
-  let h="http://localhost:8081/"
+  let h="http://spring-boot-service:8081"
   const location = useLocation()
 
   useEffect(() => {
