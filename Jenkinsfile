@@ -1,6 +1,7 @@
 pipeline {
      environment{
         dockerimage=""
+        VAULT_PASS = credentials("ansible-vault-pass")
     }
     agent any
     stages {
@@ -33,17 +34,17 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Ansible pull docker image') {
             steps {
-                ansiblePlaybook colorized: true,
-                credentialsId: 'localhost',
-                disableHostKeyChecking: true,
-                inventory: 'inventory',
-                playbook: 'deploy.yml'
-                // vaultCredentialsId: 'vault-pass'
+                sh '''
+                echo "$VAULT_PASS" > /tmp/vault_pass.txt
+                chmod 600 /tmp/vault_pass.txt
+                ansible-playbook -i inventory --vault-password-file /tmp/vault_pass.txt deploy.yml
+                rm -f /tmp/vault_pass.txt
+                '''
             }
         }
-      
+
     }
 }
