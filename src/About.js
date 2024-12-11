@@ -4,7 +4,7 @@ export default function About() {
   return (
     <div>
         <h3>Team Members:</h3>
-        <p>Srinivas Manda Bhargava IMT2020001 Sarthak Harne IMT2020032</p>
+        <p>Srinivas Madhav Sood IMT2021009 Shlok Agrawal IMT2021103</p>
     </div>
   )
 }

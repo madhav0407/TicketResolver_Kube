@@ -4,7 +4,7 @@ export default function Contact() {
   return (
     <div>
       <h3>Contact</h3>
-      <p>srinivasa.bhargava@iiitb.ac.in sarthak.harne@iiitb.ac.in</p>
+      <p>madhav.sood@iiitb.ac.in shlok.agrawal@iiitb.ac.in</p>
     </div>
   )
 }
